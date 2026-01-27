@@ -283,16 +283,20 @@ class AuthController extends GetxController {
 
 
   Future<void> logout() async {
-    isLoggedIn.value = false;
-    currentUser.value = '';
-    currentUserEmail.value = '';
-    currentUserId.value = '';
+  isLoggedIn.value = false;
+  currentUser.value = '';
+  currentUserEmail.value = '';
+  currentUserId.value = '';
 
-    await authBox.clear();
-    Get.offAll(() => const LoginScreen());
+  await authBox.put('isLoggedIn', false);
+  await authBox.delete('currentUser');
+  await authBox.delete('currentUserEmail');
+  await authBox.delete('currentUserId');
 
-    TLoaders.customToast(message: 'Logged out successfully');
-  }
+  Get.offAll(() => const LoginScreen());
+
+  TLoaders.customToast(message: 'Logged out successfully');
+}
 
 
   Future<bool> deleteAccount(String password) async {
